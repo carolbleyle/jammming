@@ -21,9 +21,12 @@ export class App extends React.Component {
     this.search=this.search.bind(this);
     }
 
+
+    //add a new track to the state playlistTracks, then update to the new
+    //playlistTracks array
   addTrack(track){
     if (this.state.playlistTracks.find(savedTrack => savedTrack.id === track.id)){
-        console.log('This track is already in the playlist');
+        //console.log('This track is already in the playlist');
         return;
       }
     let newList=this.state.playlistTracks.concat(track);
@@ -34,13 +37,15 @@ export class App extends React.Component {
     );
   }
 
+    //find a track in the current state playlistTracks array by track.id
+    //remove it from the array and update state.playlistTracks array
   removeTrack(track){
 
-    console.log(track);
+    //console.log(track);
     let removeID = track.id;
-    console.log(removeID);
+    //console.log(removeID);
     let newList=this.state.playlistTracks.filter(keepTrack => keepTrack.id !== removeID);
-    console.log(newList);
+    //console.log(newList);
     this.setState(
       {
         playlistTracks: newList
@@ -49,31 +54,37 @@ export class App extends React.Component {
 
   }
 
+    //take a name (collected from input element in playlist.js)
+    // and update state.playlistName with new name
   updatePlaylistName(name) {
 
-    console.log(name);
+    //console.log(name);
     this.setState(
       {
         playlistName: name
       }
     );
-    console.log(JSON.stringify(this.state.playlistName));
+    //console.log(JSON.stringify(this.state.playlistName));
   }
 
+    //use Spotify API to save playlist to Spotify account
   savePlaylist(){
-    console.log(this.state.playlistTracks);
+    //console.log(this.state.playlistTracks);
     let trackURIs = this.state.playlistTracks.map(element => element.uri);
-    console.log(trackURIs);
-    console.log(this.state.playlistName);
+    //console.log(trackURIs);
+    //console.log(this.state.playlistName);
     Spotify.savePlaylist(trackURIs, this.state.playlistName);
   }
 
+    //take a search term entered into input element in searchbar.js
+    //use Spotify API to get list of tracks based on search term
+    //then update state.searchResults array to the array returned by Spotify
   search(term){
     let newList;
     Spotify.search(term)
     .then(function(data){
       this.setState({searchResults: data});
-      console.log(this.state.searchResults);
+      //console.log(this.state.searchResults);
     }.bind(this));
   }
 
@@ -91,52 +102,8 @@ render() {
                     onSave={this.savePlaylist}/>
           </div>
         </div>
-        <div className="SearchBar">
-          <input placeholder="Enter A Song, Album, or Artist" />
-          <button onClick={Spotify.search}>SEARCH</button>
-          <button onClick={Spotify.getAccessToken}>Click</button>
-          <button onClick={Spotify.getUserID}>User ID</button>
-          <button onClick={Spotify.makePlaylist}>Create new playlist</button>
-          <button onClick={Spotify.savePlaylist}>Add to Playlist</button>
-
-          </div>
       </div>
-);
-}
-
-}
-
-
-/*
-// Get the hash of the url
-const hash = window.location.hash
-.substring(1)
-.split('&')
-.reduce(function (initial, item) {
-  if (item) {
-    var parts = item.split('=');
-    initial[parts[0]] = decodeURIComponent(parts[1]);
+    );
   }
-  return initial;
-}, {});
-window.location.hash = '';
 
-// Set token
-let _token = hash.access_token;
-
-const authEndpoint = 'https://accounts.spotify.com/authorize';
-
-// Replace with your app's client ID, redirect URI and desired scopes
-const clientId = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
-const redirectUri = 'http://localhost:8888';
-const scopes = [
-  'user-read-birthdate',
-  'user-read-email',
-  'user-read-private'
-];
-
-// If there is no token, redirect to Spotify authorization
-if (!_token) {
-  window.location = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join('%20')}&response_type=token`;
 }
-*/

@@ -9,9 +9,11 @@ export class Playlist extends React.Component {
     this.handleNameChange=this.handleNameChange.bind(this);
   }
 
+  //capture value entered into playlist name input and pass
+  //the value to state setter in app.js
   handleNameChange(event){
     event.preventDefault();
-    console.log(event.target.value);
+    //console.log(event.target.value);
     this.props.onNameChange(event.target.value);
   }
 

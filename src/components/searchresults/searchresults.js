@@ -4,17 +4,12 @@ import {Tracklist} from '../tracklist/tracklist.js';
 
 export class SearchResults extends React.Component {
 
-  constructor(props){
-    super(props);
-  //  this.addTrackSR=this.addTrackSR.bind(this);
-  }
-
-  //addTrackSR(track){
-//    return this.props.onAdd(track);
-//  }
 
   render(){
 
+    // have to give the props value a new variable
+    // because props seem to disappear after
+    // two levels down
     let results=this.props.searchResults;
     let addTracks=this.props.onAdd;
 

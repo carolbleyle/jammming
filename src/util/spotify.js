@@ -5,11 +5,13 @@ let playlistID;
 let arrayOfTracks = [];
 export let Spotify = {
 
+  // check for authentication token, if not one, direct website to the authentication
+  // page with client ID and redirectUri
   getAccessToken(){
     const clientId='d4fa1d8991464b03bd43ee51eb645265';
     const redirectUri='https://CASPER.surge.sh';
     if (accessToken){
-      console.log('Already got one');
+      //console.log('Already got one');
       return accessToken;
     }
     if (window.location.href.match(/access_token=([^&]*)/)) {
@@ -22,28 +24,31 @@ export let Spotify = {
       window.history.pushState('Access Token', null, '/');
       return accessToken;
     } else {
-      console.log('redirecting');
+      //console.log('redirecting');
       window.location.href=`https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectUri}`;
     }
     },
 
+    // use access token and search term to fetch search
+    // results, create an array from json that comes back
     search(term){
-      console.log(term);
+      //console.log(term);
       const accessToken = Spotify.getAccessToken();
       //Spotify.getAccessToken();
-      console.log(accessToken);
+      //console.log(accessToken);
       return fetch(`https://api.spotify.com/v1/search?type=track&q=${term}`,
         {headers: {
           Accept: 'application/json',
           Authorization: `Bearer ${accessToken}`
         }
       }).then(function(response){
-        console.log(response.status);
+        //console.log(response.status);
         return response.json();
       }).then(function(json){
       //  console.log(JSON.stringify(json));
         let tracks=json.tracks.items;
-        console.log(tracks.length);
+        //console.log(tracks.length);
+        // turn each track item into object with track data
         if (tracks.length>0){
           arrayOfTracks = tracks.map(track => {
             return {
@@ -60,6 +65,10 @@ export let Spotify = {
       });
     },
 
+    // take a list of track URIs from the playlistTracks
+    // in the app.js state and playlistName from app.js state
+    // use them to set up a new playlist on spotify
+    // and put the tracks into the playlist
     savePlaylist(trackURIs, playlistName){
       let userID;
       let playlistID;

@@ -13,15 +13,20 @@ export class SearchBar extends React.Component {
     this.handleTermChange=this.handleTermChange.bind(this);
   }
 
+  // pass the state value for term to the search method
+  // in app.js
+
   search(){
     //this.props.onSearch(this.state.term);
     this.props.onSearch(this.state.term);
 
     //console.log(newList[1]);
     //console.log('That was it');
-    
+
   }
 
+  // get value of input into search bar and set it equal to term
+  // in this component's state
   handleTermChange(event){
     this.setState(
       { term: event.target.value }

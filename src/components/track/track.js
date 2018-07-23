@@ -9,16 +9,20 @@ export class Track extends React.Component {
     this.removeTrack=this.removeTrack.bind(this);
   }
 
+  // send track back to app.js to add to playlist
   addTrack(){
-    console.log(this.props.track.name);
+    //console.log(this.props.track.name);
     this.props.onAdd(this.props.track);
   }
 
+  //send track back to app.js to remove from playlist
   removeTrack(){
-    console.log(this.props.track.id);
+    //console.log(this.props.track.id);
     this.props.onRemove(this.props.track);
   }
 
+  // determine whether to put + or - next to
+  // track and associate the appropriate action
   renderAction(isRemoval){
     if(isRemoval==='true'){
       return <a className='Track-action' onClick={this.removeTrack}>-</a>;
@@ -31,7 +35,7 @@ export class Track extends React.Component {
 
   render() {
     let isRemoval=this.props.isRemoval;
-    console.log(`here is key ${isRemoval}`);
+    //console.log(`here is key ${isRemoval}`);
 
     return(
       <div className="Track">

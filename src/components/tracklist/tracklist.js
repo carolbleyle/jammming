@@ -13,7 +13,6 @@ export class Tracklist extends React.Component {
 
       return(
         <div className="TrackList">
-        <p>isRemoval {isRemoval}</p>
         {
           results.map(track => {
             return (
